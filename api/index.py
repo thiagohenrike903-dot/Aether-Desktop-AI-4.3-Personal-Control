@@ -33,6 +33,8 @@ except ImportError as exc:
 
 from fastapi.middleware.cors import CORSMiddleware
 
+app = app
+
 LOCAL_ORIGINS = {
     "http://127.0.0.1:3000",
     "http://localhost:3000",
