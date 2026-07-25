@@ -33,21 +33,11 @@ except ImportError as exc:
     raise
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, JSONResponse
 
 app = app
 
-app.routes = [r for r in app.routes if r.path != "/"]
-
-_RENDERER_DIR = _PROJECT_ROOT / "renderer"
-if _RENDERER_DIR.is_dir():
-    app.mount("/", StaticFiles(directory=str(_RENDERER_DIR), html=True), name="renderer")
-
-@app.get("/api/status")
-def api_status():
-    from jarvis.app import APP_VERSION
-    return {"service": "Aether Desktop AI", "version": APP_VERSION}
+app.routes = [r for r in app.routes if getattr(r, "path", None) != "/"]
 
 LOCAL_ORIGINS = {
     "http://127.0.0.1:3000",
@@ -76,3 +66,15 @@ app.add_middleware(
         "X-Aether-Project-Id",
     ],
 )
+
+_RENDERER_DIR = _PROJECT_ROOT / "renderer"
+
+
+@app.api_route("/{path:path}", methods=["GET", "HEAD"])
+def serve_static(path: str):
+    target = _RENDERER_DIR / (path or "index.html")
+    if target.is_dir():
+        target = target / "index.html"
+    if target.is_file():
+        return FileResponse(str(target))
+    return JSONResponse({"ok": False, "detail": "Not found"}, status_code=404)

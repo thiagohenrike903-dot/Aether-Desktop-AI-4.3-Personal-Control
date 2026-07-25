@@ -9,6 +9,11 @@
       "maxDuration": 60
     }
   },
+  "overrides": {
+    "renderer/index.html": {
+      "contentType": "text/html"
+    }
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index.py" }
   ],
