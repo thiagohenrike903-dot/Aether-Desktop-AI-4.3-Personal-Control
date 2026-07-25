@@ -1,0 +1,10 @@
+# Optional computer-vision pack.
+# Install with: python -m pip install -r requirements-vision.txt
+-r requirements.txt
+numpy>=2.1.0
+opencv-python>=4.10.0
+mediapipe==0.10.14 ; python_version < "3.13"
+face-recognition>=1.3.0 ; python_version < "3.13"
+Pillow>=10.4.0
+pytesseract==0.3.13
+pyzbar==0.1.9

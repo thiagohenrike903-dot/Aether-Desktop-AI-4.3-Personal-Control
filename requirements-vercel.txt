@@ -1,0 +1,28 @@
+# Aether Desktop — Vercel deployment dependencies
+# Desktop-only packages (pywin32, pycaw, comtypes, mss, screen-brightness-control)
+# are excluded. They are not available on Vercel's Linux environment.
+fastapi==0.115.0
+pydantic>=2.10.0
+
+# HTTP / async
+httpx==0.27.2
+httpcore>=1.0.5,<1.1
+anyio>=4.4,<5
+python-multipart==0.0.10
+
+# OS info (limited — no control)
+psutil==6.0.0
+
+# Web search & content extraction
+duckduckgo-search>=7.5.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+
+# PDF processing
+PyMuPDF>=1.24.0
+
+# Utilities
+python-dotenv==1.0.1
+
+# Vercel ASGI adapter
+# vercel>=0.8.0  # provided by the platform, not needed in requirements

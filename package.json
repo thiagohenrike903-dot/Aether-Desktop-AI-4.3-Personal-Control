@@ -1,0 +1,54 @@
+{
+  "name": "aether-desktop-ai",
+  "productName": "Aether Desktop AI",
+  "version": "4.3.0",
+  "description": "Aether Desktop AI — assistente local monocromático com controle pessoal, recuperação verificável e automações seguras.",
+  "private": true,
+  "main": "electron/main.cjs",
+  "author": "Aether",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.12",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "setup": "node scripts/setup-python.cjs",
+    "start": "electron .",
+    "dev": "electron .",
+    "check": "node --check electron/main.cjs && node --check electron/preload.cjs && node --check electron/desktop-utils.cjs && node --check electron/python-runtime.cjs && node --check electron/credential-vault.cjs && node --check electron/security-policy.cjs && node --check electron/update-recovery.cjs && node --check renderer/app.js && node --check scripts/build-renderer.cjs && node --check scripts/setup-python.cjs && node --check scripts/prepare-update-trust.cjs && node --check scripts/validate-python.cjs && node --check scripts/validate-release.cjs && node --check build/make-icon.cjs",
+    "test:electron": "node --test electron/desktop-utils.test.cjs electron/preload.test.cjs electron/python-runtime.test.cjs electron/credential-vault.test.cjs electron/security-policy.test.cjs electron/update-recovery.test.cjs electron/main-contracts.test.cjs",
+    "validate:python": "node scripts/validate-python.cjs",
+    "build:icons": "node build/make-icon.cjs",
+    "build:renderer": "node scripts/build-renderer.cjs",
+    "prepare:update-trust": "node scripts/prepare-update-trust.cjs",
+    "validate": "npm run build:renderer && npm run check && npm run test:electron && npm run validate:python && node scripts/validate-release.cjs",
+    "pack": "npm run build:renderer && electron-builder --config build/electron-builder.json --dir",
+    "build": "npm run build:renderer && electron-builder --config build/electron-builder.json",
+    "build:win": "npm run build:renderer && electron-builder --config build/electron-builder.json --win",
+    "build:win:installer": "npm run build:renderer && electron-builder --config build/electron-builder.json --win nsis",
+    "build:win:portable": "npm run build:renderer && electron-builder --config build/electron-builder.json --win portable",
+    "build:win:trusted": "npm run prepare:update-trust && npm run build:win"
+  },
+  "scriptDescriptions": {
+    "setup": "Cria a .venv, instala o núcleo Python e prepara um .env local seguro.",
+    "start": "Abre o aplicativo Electron em modo local.",
+    "dev": "Abre o aplicativo em desenvolvimento, carregando diretamente a pasta renderer.",
+    "check": "Valida a sintaxe dos arquivos Node/Electron sem iniciar a interface.",
+    "test:electron": "Testa streaming, cofre, concessões, allowlist, atualização assinada, rollback e a ponte sandboxada.",
+    "validate:python": "Compila o núcleo e executa pytest quando a .venv preparada está disponível.",
+    "build:icons": "Regenera ícone, wordmark, bandeja e imagens monocromáticas do instalador.",
+    "build:renderer": "Copia os arquivos estáticos de renderer para dist.",
+    "prepare:update-trust": "Valida e prepara uma chave pública Ed25519 fornecida pelo operador; nunca aceita material privado.",
+    "validate": "Sincroniza a interface e valida Node, Electron, Python e a consistência estrutural do pacote.",
+    "pack": "Gera uma pasta de aplicativo não instalável para validação.",
+    "build": "Gera os pacotes configurados para o sistema operacional atual.",
+    "build:win": "Gera o instalador NSIS e a versão portátil para Windows x64.",
+    "build:win:installer": "Gera somente o instalador NSIS para Windows x64.",
+    "build:win:portable": "Gera somente o executável portátil para Windows x64.",
+    "build:win:trusted": "Exige uma raiz pública Ed25519 válida antes de gerar os pacotes Windows."
+  },
+  "devDependencies": {
+    "electron": "43.2.0",
+    "electron-builder": "26.15.3"
+  }
+}

@@ -1,0 +1,1 @@
+{"projectId":"_","orgId":"_","settings":{"framework":null,"devCommand":null,"installCommand":"pip install -r requirements-vercel.txt","buildCommand":null,"outputDirectory":"renderer","rootDirectory":null,"directoryListing":false,"nodeVersion":"22.x"}}

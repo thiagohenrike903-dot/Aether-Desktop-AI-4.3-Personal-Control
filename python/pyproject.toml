@@ -1,0 +1,22 @@
+# Python launcher
+# Exposes a single command that starts the FastAPI service.
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aether-core"
+version = "4.3.0"
+description = "Aether Desktop AI — secure local core service."
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[project.scripts]
+aether-core = "jarvis.__main__:main"
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jarvis*"]

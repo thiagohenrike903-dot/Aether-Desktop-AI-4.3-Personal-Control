@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#111111">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; img-src 'self' data: blob:; media-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' http://127.0.0.1:* http://localhost:* https://*.vercel.app wss://*.vercel.app;">
+  <title>Aether</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script>
+    (function() {
+      var isElectron = typeof window !== 'undefined' && (
+        navigator.userAgent.includes('Electron') ||
+        navigator.userAgent.includes('Aether')
+      );
+      if (!isElectron) {
+        document.documentElement.classList.add('browser-mode');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-aether" viewBox="0 0 32 32">
+      <rect x="2.5" y="2.5" width="27" height="27" rx="8" fill="currentColor"></rect>
+      <path fill="none" stroke="var(--aether-mark-ink, #fff)" stroke-width="1.8" stroke-linecap="round" d="M9.2 20.2 14.8 8.9c.5-1 1.9-1 2.4 0l5.6 11.3M11.6 17.2h8.8"></path>
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol>
+    <symbol id="i-panel-left" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></symbol>
+    <symbol id="i-panel-right" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M15 4v16"></path></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path></symbol>
+    <symbol id="i-star-fill" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="m12 2.8 2.9 5.8 6.4.9-4.6 4.5 1.1 6.3-5.8-3-5.8 3 1.1-6.3-4.6-4.5 6.4-.9L12 2.8Z"></path></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"></path></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"></path></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.1 3.3a4 4 0 0 0 2.6 2.6L19 10l-3.3 1.1a4 4 0 0 0-2.6 2.6L12 17l-1.1-3.3a4 4 0 0 0-2.6-2.6L5 10l3.3-1.1a4 4 0 0 0 2.6-2.6L12 3Zm7 13 .5 1.5A2.3 2.3 0 0 0 21 19l-1.5.5A2.3 2.3 0 0 0 18 21l-.5-1.5A2.3 2.3 0 0 0 16 18l1.5-.5A2.3 2.3 0 0 0 19 16Z"></path></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"></path></symbol>
+    <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="m20.5 11.5-8.6 8.6a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"></path></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"></rect></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 4.2 2.6 17.5A1.7 1.7 0 0 0 4.1 20h15.8a1.7 1.7 0 0 0 1.5-2.5L13.7 4.2a2 2 0 0 0-3.4 0ZM12 9v4m0 3h.01"></path></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"></path><path d="M6.1 8A7 7 0 0 1 18.8 6L20 12M4 12l1.2 6A7 7 0 0 0 18 16"></path></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 20h14"></path></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M5 20h14"></path></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6Z"></path></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 22h8m-4-4v4"></path></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 9-4 3 4 3m8-6 4 3-4 3m-2-9-4 12"></path></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"></path></symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 4.5A3 3 0 0 0 4 6a3 3 0 0 0 .6 1.8A3.5 3.5 0 0 0 5 14.5V16a4 4 0 0 0 4 4h1V5.5a2 2 0 0 0-.5-1Zm5 0A3 3 0 0 1 20 6a3 3 0 0 1-.6 1.8 3.5 3.5 0 0 1-.4 6.7V16a4 4 0 0 1-4 4h-1V5.5a2 2 0 0 1 .5-1Z"></path><path d="M6 10h4m4 0h4M7 16h3m4 0h3"></path></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M8 3h4v3a2 2 0 1 0 4 0V3h5v6h-3a2 2 0 1 0 0 4h3v8h-7v-3a2 2 0 1 0-4 0v3H3v-7h3a2 2 0 1 0 0-4H3V3h5Z"></path></symbol>
+    <symbol id="i-list-check" viewBox="0 0 24 24"><path d="m3 6 2 2 3-4M11 6h10M3 13l2 2 3-4m3 2h10M3 20l2 2 3-4m3 2h10"></path></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="m7 9 3 3-3 3m6 0h4"></path></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"></path></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 5a3 3 0 0 1 0 4m2-7a7 7 0 0 1 0 10"></path></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"></path></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1"></rect></symbol>
+    <symbol id="i-restore" viewBox="0 0 24 24"><path d="M8 8V5h11v11h-3M5 8h11v11H5V8Z"></path></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9Z"></path></symbol>
+    <symbol id="i-focus" viewBox="0 0 24 24"><path d="M8 3H4a1 1 0 0 0-1 1v4m13-5h4a1 1 0 0 1 1 1v4M8 21H4a1 1 0 0 1-1-1v-4m13 5h4a1 1 0 0 0 1-1v-4"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v6l-5.5 9.2A1.8 1.8 0 0 0 6 21h12a1.8 1.8 0 0 0 1.5-2.8L14 9V3"></path><path d="M7.5 15h9"></path></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12 9 5 9-5M3 16l9 5 9-5"></path></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.7 3.2 8 7.5 9.5 4.3-1.5 7.5-4.8 7.5-9.5V6L12 3Z"></path><path d="m8.5 12 2.2 2.2 4.8-5"></path></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H11v18H6.5A2.5 2.5 0 0 0 4 22V4.5Zm16 0A2.5 2.5 0 0 0 17.5 2H13v18h4.5A2.5 2.5 0 0 1 20 22V4.5Z"></path></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"></path></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-7 7L3 12Z"></path><circle cx="7.5" cy="8.5" r="1"></circle></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Zm9.5-12 3 3M4 20h16"></path></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="19" r="2"></circle><path d="M6 7v10m2-7h4a6 6 0 0 0 6-2"></path></symbol>
+    <symbol id="i-compare" viewBox="0 0 24 24"><path d="M8 4 4 8l4 4M4 8h13a3 3 0 0 1 3 3v1m-4 8 4-4-4-4m4 4H7a3 3 0 0 1-3-3v-1"></path></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M14 5c2.7-2.7 5.7-2.5 5.7-2.5s.2 3-2.5 5.7l-5.5 5.5-4.4-4.4L14 5Z"></path><path d="m8 9-4 .8-2 2 5.3 1.1M12 13l-.8 4-2 2-1.1-5.3M14.5 7.5h.01"></path></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-7 8H5a4 4 0 0 1 0-8h3m9-2h2a4 4 0 0 1 0 8h-3"></path></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6V2Zm8 0v6h5M9 13h7m-7 4h7"></path></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10m4 0h2M4 12h3m4 0h9M4 18h8m4 0h4"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="14" cy="18" r="2"></circle></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14m8-14v14"></path></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="m9 7-5 5 5 5M5 12h8a6 6 0 0 1 6 6"></path></symbol>
+  </svg>
+
+  <a class="skip-link" href="#composer-input">Pular para o campo de mensagem</a>
+
+  <div id="app-shell" class="app-shell">
+    <aside id="sidebar" class="sidebar" aria-label="Conversas">
+      <div class="sidebar-top">
+        <div class="brand-row">
+          <button id="brand-home" class="brand" type="button" aria-label="Ir para o início">
+            <span class="brand-avatar aether-avatar-mark" aria-hidden="true"></span>
+            <span class="brand-lockup">
+              <img class="brand-wordmark" src="./assets/aether-wordmark.png" alt="">
+              <small>Desktop AI</small>
+            </span>
+          </button>
+          <button id="sidebar-toggle" class="icon-button sidebar-toggle" type="button" aria-label="Recolher barra lateral" title="Recolher barra lateral">
+            <svg><use href="#i-panel-left"></use></svg>
+          </button>
+        </div>
+
+        <button id="new-chat-button" class="new-chat-button" type="button">
+          <svg><use href="#i-plus"></use></svg>
+          <span>Nova conversa</span>
+          <kbd>Ctrl N</kbd>
+        </button>
+
+        <label class="sidebar-search" for="conversation-search">
+          <svg aria-hidden="true"><use href="#i-search"></use></svg>
+          <input id="conversation-search" type="search" placeholder="Buscar conversas" autocomplete="off">
+          <span class="search-shortcut">⌘F</span>
+        </label>
+
+        <div class="sidebar-section-label">Principal</div>
+        <nav id="product-navigation" class="product-navigation" aria-label="Áreas do Aether">
+          <button class="product-nav-item active" type="button" data-view="home" aria-current="page">
+            <svg><use href="#i-home"></use></svg><span>Início</span>
+          </button>
+          <button class="product-nav-item" type="button" data-view="chat">
+            <svg><use href="#i-sparkles"></use></svg><span>Assistente</span>
+          </button>
+          <button class="product-nav-item" type="button" data-view="control">
+            <svg><use href="#i-shield"></use></svg><span>Central de Controle</span><i id="control-nav-count" hidden>0</i>
+          </button>
+          <button class="product-nav-item" type="button" data-view="projects">
+            <svg><use href="#i-book"></use></svg><span>Projetos e Biblioteca</span>
+          </button>
+          <button class="product-nav-item" type="button" data-view="research">
+            <svg><use href="#i-globe"></use></svg><span>Pesquisa</span>
+          </button>
+          <button class="product-nav-item" type="button" data-view="memory">
+            <svg><use href="#i-brain"></use></svg><span>Memórias</span>
+          </button>
+          <button class="product-nav-item" type="button" data-view="automations">
+            <svg><use href="#i-clock"></use></svg><span>Tarefas e Automações</span>
+          </button>
+          <details class="product-nav-more">
+            <summary><svg><use href="#i-grid"></use></svg><span>Mais sistemas</span><svg class="summary-chevron"><use href="#i-chevron-down"></use></svg></summary>
+            <div>
+              <button class="product-nav-item" type="button" data-view="connections"><svg><use href="#i-link"></use></svg><span>Conexões</span></button>
+              <button class="product-nav-item" type="button" data-view="trust"><svg><use href="#i-lock"></use></svg><span>Confiança e Privacidade</span></button>
+              <button class="product-nav-item" type="button" data-view="workflows"><svg><use href="#i-layers"></use></svg><span>Workflows</span></button>
+              <button class="product-nav-item" type="button" data-view="model-lab"><svg><use href="#i-compare"></use></svg><span>Model Lab</span></button>
+              <button class="product-nav-item" type="button" data-view="system-hub"><svg><use href="#i-activity"></use></svg><span>Saúde e Recuperação</span></button>
+              <button class="product-nav-item" type="button" data-view="skills"><svg><use href="#i-sparkles"></use></svg><span>Skills</span></button>
+              <button class="product-nav-item" type="button" data-view="plugins"><svg><use href="#i-puzzle"></use></svg><span>Plugins</span></button>
+              <button class="product-nav-item" type="button" data-view="workspace"><svg><use href="#i-folder"></use></svg><span>Workspace</span></button>
+              <button class="product-nav-item" type="button" data-view="models"><svg><use href="#i-sliders"></use></svg><span>Modelos e uso</span></button>
+              <button class="product-nav-item" type="button" data-view="computer"><svg><use href="#i-monitor"></use></svg><span>Computador</span></button>
+            </div>
+          </details>
+        </nav>
+
+        <section id="sidebar-project-section" class="sidebar-project-section" aria-labelledby="sidebar-project-heading" hidden>
+          <div id="sidebar-project-heading" class="sidebar-section-label">Projeto ativo</div>
+          <button id="sidebar-project-card" class="sidebar-project-card" type="button">
+            <span class="sidebar-project-icon"><svg><use href="#i-folder"></use></svg></span>
+            <span class="sidebar-project-copy">
+              <strong id="sidebar-project-name">Projeto</strong>
+              <small id="sidebar-project-meta">Contexto conectado</small>
+            </span>
+            <svg class="sidebar-project-chevron"><use href="#i-chevron-down"></use></svg>
+          </button>
+        </section>
+      </div>
+
+      <div id="conversation-navigation" class="conversation-navigation">
+        <section id="favorites-section" class="conversation-section" aria-labelledby="favorites-heading">
+          <div class="section-heading" id="favorites-heading">Favoritas</div>
+          <div id="favorite-conversations" class="conversation-list"></div>
+        </section>
+        <section class="conversation-section" aria-labelledby="recent-heading">
+          <div class="section-heading" id="recent-heading">Recentes</div>
+          <div id="recent-conversations" class="conversation-list"></div>
+        </section>
+        <div id="conversation-empty" class="sidebar-empty" hidden>
+          Nenhuma conversa encontrada.
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="open-command-button" class="sidebar-footer-button" type="button">
+          <svg><use href="#i-command"></use></svg>
+          <span>Comandos</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+        <button id="open-settings-button" class="sidebar-footer-button" type="button">
+          <svg><use href="#i-settings"></use></svg>
+          <span>Configurações</span>
+        </button>
+        <div class="profile-card">
+          <div class="profile-avatar" aria-hidden="true">U</div>
+          <div class="profile-copy">
+            <strong id="profile-space-name">Meu espaço</strong>
+            <span id="profile-provider">Verificando modelo…</span>
+          </div>
+          <span id="sidebar-health-dot" class="health-dot" aria-hidden="true"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-column">
+      <header class="topbar">
+        <div class="topbar-leading">
+          <button id="mobile-sidebar-button" class="icon-button mobile-only" type="button" aria-label="Abrir conversas">
+            <svg><use href="#i-menu"></use></svg>
+          </button>
+          <span class="topbar-breadcrumb-root">Projetos</span>
+          <span class="topbar-breadcrumb-separator">/</span>
+          <button id="conversation-menu-button" class="conversation-title-button" type="button" aria-haspopup="menu" aria-expanded="false">
+            <span id="conversation-title">Nova conversa</span>
+            <svg><use href="#i-chevron-down"></use></svg>
+          </button>
+        </div>
+        <div class="topbar-actions">
+          <button id="global-search-button" class="global-search-button" type="button" title="Buscar em tudo">
+            <svg><use href="#i-search"></use></svg>
+            <span>Buscar em tudo</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+          <button id="connection-button" class="connection-chip" type="button" title="Verificar conexão">
+            <span class="health-dot" aria-hidden="true"></span>
+            <span id="connection-label">Conectando…</span>
+          </button>
+          <button id="safety-mode-button" class="safety-mode-chip" type="button" title="Abrir modo de proteção">
+            <svg><use href="#i-shield"></use></svg>
+            <span id="safety-mode-label">Proteção</span>
+          </button>
+          <button id="focus-mode-button" class="topbar-button focus-mode-button" type="button" aria-pressed="false" title="Ativar modo foco (Ctrl+Shift+F)">
+            <svg><use href="#i-focus"></use></svg>
+            <span>Foco</span>
+          </button>
+          <button id="share-button" class="topbar-button" type="button" title="Exportar conversa">
+            <svg><use href="#i-download"></use></svg>
+            <span>Exportar</span>
+          </button>
+          <button id="context-toggle" class="icon-button" type="button" aria-label="Abrir painel de contexto" aria-expanded="false" title="Ferramentas e atividades">
+            <svg><use href="#i-panel-right"></use></svg>
+          </button>
+          <div id="window-controls" class="window-controls" aria-label="Controles da janela">
+            <button id="window-minimize" type="button" aria-label="Minimizar"><svg><use href="#i-minus"></use></svg></button>
+            <button id="window-maximize" type="button" aria-label="Maximizar"><svg><use id="window-maximize-icon" href="#i-maximize"></use></svg></button>
+            <button id="window-close" class="window-close" type="button" aria-label="Fechar"><svg><use href="#i-close"></use></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <section id="studio-view" class="studio-view" tabindex="-1" aria-label="Área de trabalho" hidden>
+        <header class="studio-header">
+          <div>
+            <p id="studio-eyebrow" class="studio-eyebrow">Aether</p>
+            <h1 id="studio-title">Área de trabalho</h1>
+            <p id="studio-description">Gerencie os sistemas conectados ao núcleo local.</p>
+          </div>
+          <div id="studio-actions" class="studio-header-actions"></div>
+        </header>
+        <div id="studio-content" class="studio-content"></div>
+      </section>
+
+      <section id="chat-scroll" class="chat-scroll" aria-label="Conversa">
+        <div id="empty-state" class="empty-state">
+          <div class="empty-brand" aria-hidden="true">
+            <img src="./assets/aether-wordmark.png" alt="">
+          </div>
+          <p id="empty-eyebrow" class="empty-eyebrow">Seu espaço de trabalho</p>
+          <h1 id="empty-title">O que vamos criar hoje?</h1>
+          <p id="empty-description">Converse, pesquise e trabalhe com seus projetos em um só lugar.</p>
+
+          <div class="suggestion-grid" aria-label="Sugestões">
+            <button class="suggestion-card" type="button" data-prompt="Organize minha pasta Downloads por tipo de arquivo em modo de simulação">
+              <span class="suggestion-icon mint"><svg><use href="#i-folder"></use></svg></span>
+              <span><strong>Organizar arquivos</strong><small>Faça uma prévia segura da pasta Downloads</small></span>
+              <svg class="suggestion-arrow"><use href="#i-send"></use></svg>
+            </button>
+            <button class="suggestion-card" type="button" data-prompt="Analise o uso do meu sistema e me diga se existe algo fora do normal">
+              <span class="suggestion-icon blue"><svg><use href="#i-monitor"></use></svg></span>
+              <span><strong>Analisar o computador</strong><small>CPU, memória e processos em execução</small></span>
+              <svg class="suggestion-arrow"><use href="#i-send"></use></svg>
+            </button>
+            <button class="suggestion-card" type="button" data-prompt="Pesquise na web as notícias de tecnologia mais importantes de hoje e resuma">
+              <span class="suggestion-icon violet"><svg><use href="#i-globe"></use></svg></span>
+              <span><strong>Pesquisar na web</strong><small>Encontre e resuma informações atuais</small></span>
+              <svg class="suggestion-arrow"><use href="#i-send"></use></svg>
+            </button>
+            <button class="suggestion-card" type="button" data-prompt="Ajude-me a planejar e implementar uma melhoria no projeto aberto">
+              <span class="suggestion-icon amber"><svg><use href="#i-code"></use></svg></span>
+              <span><strong>Trabalhar com código</strong><small>Planeje mudanças no seu workspace</small></span>
+              <svg class="suggestion-arrow"><use href="#i-send"></use></svg>
+            </button>
+          </div>
+          <div class="capability-row" aria-label="Capacidades">
+            <span><svg><use href="#i-sparkles"></use></svg> <span id="agent-capability-label">Agentes especializados</span></span>
+            <span><svg><use href="#i-brain"></use></svg> Memória contextual</span>
+            <span><svg><use href="#i-monitor"></use></svg> Automação local</span>
+          </div>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div id="thinking-indicator" class="thinking-indicator" role="status" hidden>
+          <div class="assistant-avatar aether-avatar-mark" aria-hidden="true"></div>
+          <div>
+            <div class="thinking-label"><span id="thinking-text">Aether está analisando</span><span class="typing-dots"><i></i><i></i><i></i></span></div>
+            <div class="thinking-track"><span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <button id="jump-bottom-button" class="jump-bottom-button" type="button" aria-label="Ir para a mensagem mais recente" hidden>
+        <svg><use href="#i-chevron-down"></use></svg>
+      </button>
+
+      <div class="composer-zone">
+        <div id="attachment-strip" class="attachment-strip" role="region" aria-label="Arquivos anexados" hidden></div>
+        <form id="composer-form" class="composer" novalidate>
+          <textarea id="composer-input" rows="1" maxlength="24000" placeholder="Envie uma mensagem para o Aether" aria-label="Mensagem"></textarea>
+          <div class="composer-toolbar">
+            <div class="composer-tools">
+              <button id="attach-button" class="composer-icon-button" type="button" aria-label="Anexar arquivos" title="Anexar arquivos">
+                <svg><use href="#i-paperclip"></use></svg>
+              </button>
+              <button id="voice-button" class="composer-icon-button" type="button" aria-label="Ditado por voz" title="Ditado por voz">
+                <svg class="mic-icon"><use href="#i-mic"></use></svg>
+                <svg class="stop-icon"><use href="#i-stop"></use></svg>
+              </button>
+              <button id="composer-tools-button" class="composer-mode-button" type="button" aria-label="Abrir ferramentas">
+                <svg><use href="#i-sparkles"></use></svg>
+                <span>Ferramentas</span>
+              </button>
+              <button id="context-preview-button" class="composer-mode-button" type="button" aria-label="Inspecionar contexto da próxima resposta">
+                <svg><use href="#i-eye"></use></svg>
+                <span>Contexto</span>
+              </button>
+              <label class="composer-profile" title="Perfil usado na próxima mensagem">
+                <svg><use href="#i-sliders"></use></svg>
+                <span class="visually-hidden">Perfil de modelo</span>
+                <select id="composer-profile-select" aria-label="Perfil de modelo">
+                  <option value="">Modelo padrão</option>
+                </select>
+              </label>
+            </div>
+            <div class="composer-actions">
+              <span id="composer-count" class="composer-count" aria-hidden="true"></span>
+              <button id="send-button" class="send-button" type="submit" aria-label="Enviar mensagem" disabled>
+                <svg class="send-icon"><use href="#i-send"></use></svg>
+                <svg class="stop-icon"><use href="#i-stop"></use></svg>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="composer-hint">
+          <span>O Aether pode cometer erros. Confirme ações importantes.</span>
+          <span id="composer-status" role="status">Pronto</span>
+        </div>
+      </div>
+    </main>
+
+    <aside id="context-panel" class="context-panel" aria-label="Contexto e ferramentas">
+      <div class="context-header">
+        <div>
+          <h2>Contexto da tarefa</h2>
+          <p>Plano, fontes, memória e ações</p>
+        </div>
+        <button id="context-close" class="icon-button" type="button" aria-label="Fechar painel">
+          <svg><use href="#i-close"></use></svg>
+        </button>
+      </div>
+      <div class="context-tabs" role="tablist" aria-label="Painel lateral">
+        <button id="overview-tab" class="context-tab active" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="overview-panel">Plano</button>
+        <button id="sources-tab" class="context-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="sources-panel">Fontes <span id="sources-count">0</span></button>
+        <button id="attachments-tab" class="context-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="attachments-panel">Anexos <span id="context-attachments-count">0</span></button>
+        <button id="activity-tab" class="context-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="activity-panel">Ações <span id="activity-count">0</span></button>
+      </div>
+
+      <div id="overview-panel" class="context-content" role="tabpanel" aria-labelledby="overview-tab">
+        <section class="panel-section context-plan-section" aria-labelledby="context-plan-heading">
+          <div class="panel-section-heading">
+            <h3 id="context-plan-heading">Plano da operação</h3>
+            <span id="context-plan-status" class="subtle-badge">Sem operação</span>
+          </div>
+          <ol id="context-plan-list" class="context-plan-list"></ol>
+          <div id="context-plan-empty" class="panel-empty compact">
+            <svg><use href="#i-list-check"></use></svg>
+            <strong>Nenhum plano ativo</strong>
+            <span>Etapas reais aparecem aqui durante uma solicitação.</span>
+          </div>
+        </section>
+
+        <section class="panel-section context-inspector-section" aria-labelledby="context-inspector-heading">
+          <div class="panel-section-heading">
+            <h3 id="context-inspector-heading">Contexto da próxima resposta</h3>
+            <button id="refresh-context-preview" class="small-icon-button" type="button" aria-label="Atualizar prévia do contexto" title="Atualizar prévia">
+              <svg><use href="#i-refresh"></use></svg>
+            </button>
+          </div>
+          <div id="context-inspector-summary" class="context-inspector-summary" hidden></div>
+          <div id="context-inspector-empty" class="panel-empty compact">
+            <svg><use href="#i-eye"></use></svg>
+            <strong>Prévia sob demanda</strong>
+            <span>Veja memórias, documentos, skills e dados externos antes de enviar.</span>
+          </div>
+        </section>
+
+        <section class="panel-section telemetry-section" aria-labelledby="telemetry-heading" hidden>
+          <div class="panel-section-heading">
+            <h3 id="telemetry-heading">Sistema</h3>
+            <button id="refresh-system-button" class="small-icon-button" type="button" aria-label="Atualizar sistema" title="Atualizar">
+              <svg><use href="#i-refresh"></use></svg>
+            </button>
+          </div>
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <span>CPU</span>
+              <strong id="cpu-value">—</strong>
+              <div class="meter"><i id="cpu-meter"></i></div>
+            </div>
+            <div class="telemetry-card">
+              <span>Memória</span>
+              <strong id="memory-value">—</strong>
+              <div class="meter"><i id="memory-meter"></i></div>
+            </div>
+          </div>
+          <div class="system-meta">
+            <span><i id="system-status-dot" class="health-dot"></i><span id="system-status-text">Conectando ao núcleo…</span></span>
+            <span id="process-value">— processos</span>
+          </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="model-heading">
+          <div class="panel-section-heading"><h3 id="model-heading">Sessão</h3></div>
+          <dl class="session-details">
+            <div><dt>Modelo</dt><dd id="model-value">Verificando…</dd></div>
+            <div><dt>Agente</dt><dd id="agent-value">Conversação</dd></div>
+            <div><dt>Workspace</dt><dd id="workspace-value">Nenhum aberto</dd></div>
+          </dl>
+        </section>
+
+        <div class="visually-hidden" aria-hidden="true" inert>
+          <button data-tool="diagnostic"></button><button data-tool="memory"></button><button data-tool="skills"></button>
+          <button data-tool="tasks"></button><button data-tool="plugins"></button><button data-tool="workspace"></button>
+          <div id="tool-result" hidden></div>
+        </div>
+
+        <section class="panel-section safety-note">
+          <svg><use href="#i-check"></use></svg>
+          <div><strong>Execução protegida</strong><p>Ações críticas sempre exigem sua confirmação.</p></div>
+        </section>
+      </div>
+
+      <div id="sources-panel" class="context-content" role="tabpanel" aria-labelledby="sources-tab" hidden>
+        <div class="activity-toolbar">
+          <span>Fontes desta conversa</span>
+          <button id="clear-sources-button" type="button">Limpar</button>
+        </div>
+        <ol id="context-sources-list" class="context-card-list"></ol>
+        <div id="context-sources-empty" class="panel-empty">
+          <svg><use href="#i-globe"></use></svg>
+          <strong>Nenhuma fonte consultada</strong>
+          <span>Links e documentos realmente usados aparecerão aqui.</span>
+        </div>
+      </div>
+
+      <div id="attachments-panel" class="context-content" role="tabpanel" aria-labelledby="attachments-tab" hidden>
+        <div class="activity-toolbar"><span>Arquivos da conversa</span></div>
+        <div id="context-attachments-list" class="context-card-list"></div>
+        <div id="context-attachments-empty" class="panel-empty">
+          <svg><use href="#i-paperclip"></use></svg>
+          <strong>Nenhum anexo</strong>
+          <span>Preview, progresso, falhas e nova tentativa aparecem aqui.</span>
+        </div>
+      </div>
+
+      <div id="activity-panel" class="context-content" role="tabpanel" aria-labelledby="activity-tab" hidden>
+        <div class="activity-toolbar">
+          <span>Ações desta sessão</span>
+          <button id="clear-activity-button" type="button">Limpar</button>
+        </div>
+        <ol id="activity-list" class="activity-list"></ol>
+        <div id="activity-empty" class="panel-empty">
+          <svg><use href="#i-activity"></use></svg>
+          <strong>Nenhuma atividade ainda</strong>
+          <span>Ações e ferramentas aparecerão aqui.</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="mobile-backdrop" class="mobile-backdrop" hidden></div>
+
+  <div id="conversation-popover" class="popover-menu" role="menu" hidden>
+    <button type="button" role="menuitem" data-conversation-action="rename"><svg><use href="#i-sparkles"></use></svg>Renomear</button>
+    <button type="button" role="menuitem" data-conversation-action="favorite"><svg><use href="#i-star"></use></svg><span>Adicionar aos favoritos</span></button>
+    <button type="button" role="menuitem" data-conversation-action="export"><svg><use href="#i-download"></use></svg>Exportar como Markdown</button>
+    <hr>
+    <button class="danger" type="button" role="menuitem" data-conversation-action="delete"><svg><use href="#i-trash"></use></svg>Excluir conversa</button>
+  </div>
+
+  <div id="command-modal" class="modal-layer" hidden>
+    <div class="modal-backdrop" data-close-modal="command"></div>
+    <section class="command-palette" role="dialog" aria-modal="true" aria-labelledby="command-title">
+      <h2 id="command-title" class="visually-hidden">Central de comandos</h2>
+      <label class="command-search" for="command-input">
+        <svg><use href="#i-search"></use></svg>
+        <input id="command-input" type="text" placeholder="Digite um comando ou pesquise uma ação…" autocomplete="off">
+        <kbd>Esc</kbd>
+      </label>
+      <div id="command-list" class="command-list" role="listbox" aria-label="Comandos"></div>
+      <div class="command-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+        <span><kbd>Enter</kbd> selecionar</span>
+      </div>
+    </section>
+  </div>
+
+  <div id="settings-modal" class="modal-layer" hidden>
+    <div class="modal-backdrop" data-close-modal="settings"></div>
+    <section class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <header class="modal-header">
+        <div><h2 id="settings-title">Configurações</h2><p>Personalize sua experiência no Aether.</p></div>
+        <button class="icon-button" type="button" data-close-modal="settings" aria-label="Fechar configurações"><svg><use href="#i-close"></use></svg></button>
+      </header>
+      <div class="settings-body">
+        <nav class="settings-nav" aria-label="Categorias das configurações">
+          <button class="active" type="button" data-settings-page="appearance"><svg><use href="#i-sparkles"></use></svg>Aparência</button>
+          <button type="button" data-settings-page="reading"><svg><use href="#i-book"></use></svg>Leitura</button>
+          <button type="button" data-settings-page="behavior"><svg><use href="#i-command"></use></svg>Comportamento</button>
+          <button type="button" data-settings-page="connection"><svg><use href="#i-monitor"></use></svg>Conexão</button>
+          <button type="button" data-settings-page="data"><svg><use href="#i-download"></use></svg>Dados</button>
+        </nav>
+        <div class="settings-pages">
+          <section class="settings-page active" data-settings-content="appearance">
+            <h3>Aparência</h3>
+            <div class="brand-preview-card" aria-label="Identidade visual ativa">
+              <img src="./assets/aether-wordmark.png" alt="Aether">
+              <div><strong>Identidade monocromática</strong><p>Preto, branco e cinzas em toda a experiência.</p></div>
+            </div>
+            <div class="setting-row stacked">
+              <div><label id="theme-label">Tema</label><p>Escolha como o Aether aparece para você.</p></div>
+              <div class="segmented-control" role="radiogroup" aria-labelledby="theme-label">
+                <button type="button" data-theme-value="light" role="radio">Claro</button>
+                <button type="button" data-theme-value="dark" role="radio">Escuro</button>
+                <button type="button" data-theme-value="system" role="radio">Sistema</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div><label for="density-select">Densidade</label><p>Controle o espaçamento da interface.</p></div>
+              <select id="density-select">
+                <option value="comfortable">Confortável</option>
+                <option value="compact">Compacta</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><label for="font-size-range">Tamanho do texto</label><p><span id="font-size-output">16</span> px</p></div>
+              <input id="font-size-range" type="range" min="14" max="19" step="1" value="16">
+            </div>
+            <div class="setting-row">
+              <div><label for="contrast-select">Contraste</label><p>Reforça bordas, foco e separação sem adicionar cores.</p></div>
+              <select id="contrast-select">
+                <option value="standard">Padrão</option>
+                <option value="high">Alto contraste</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><label for="font-family-select">Tipografia</label><p>Use uma alternativa com formas mais distintas para leitura.</p></div>
+              <select id="font-family-select">
+                <option value="system">Sistema</option>
+                <option value="accessible">Acessível</option>
+                <option value="serif">Serifada para leitura</option>
+                <option value="dyslexic">Formas abertas</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><label for="motion-toggle">Reduzir animações</label><p>Diminui movimentos e transições.</p></div>
+              <label class="switch"><input id="motion-toggle" type="checkbox"><span></span></label>
+            </div>
+          </section>
+
+          <section class="settings-page" data-settings-content="reading" hidden>
+            <h3>Foco e leitura</h3>
+            <div class="setting-row">
+              <div><label for="reading-width-select">Largura do texto</label><p>Não altera o tema nem o tamanho da janela.</p></div>
+              <select id="reading-width-select">
+                <option value="narrow">Estreita</option>
+                <option value="balanced">Equilibrada</option>
+                <option value="wide">Ampla</option>
+                <option value="full">Máxima</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><label for="reading-spacing-select">Espaçamento de leitura</label><p>Ajusta a altura das linhas nas respostas.</p></div>
+              <select id="reading-spacing-select">
+                <option value="compact">Compacto</option>
+                <option value="comfortable">Confortável</option>
+                <option value="airy">Amplo</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><label for="code-size-range">Tamanho do código</label><p><span id="code-size-output">13</span> px</p></div>
+              <input id="code-size-range" type="range" min="12" max="22" step="1" value="13">
+            </div>
+            <div class="focus-setting-card">
+              <span class="studio-card-icon"><svg><use href="#i-focus"></use></svg></span>
+              <div><strong>Modo foco transitório</strong><p>Oculta sidebar e painel contextual sem perder a organização anterior. Use <kbd>Ctrl Shift F</kbd>.</p></div>
+              <button id="settings-focus-toggle" class="secondary-button" type="button">Ativar foco</button>
+            </div>
+          </section>
+
+          <section class="settings-page" data-settings-content="behavior" hidden>
+            <h3>Comportamento</h3>
+            <div class="setting-row">
+              <div><label for="enter-send-toggle">Enter para enviar</label><p>Use Shift + Enter para quebrar linha.</p></div>
+              <label class="switch"><input id="enter-send-toggle" type="checkbox"><span></span></label>
+            </div>
+            <div class="setting-row">
+              <div><label for="auto-title-toggle">Títulos automáticos</label><p>Usa a primeira mensagem para nomear a conversa.</p></div>
+              <label class="switch"><input id="auto-title-toggle" type="checkbox"><span></span></label>
+            </div>
+            <div class="setting-row">
+              <div><label for="sound-toggle">Sons de interface</label><p>Feedback sonoro sutil ao concluir respostas.</p></div>
+              <label class="switch"><input id="sound-toggle" type="checkbox"><span></span></label>
+            </div>
+          </section>
+
+          <section class="settings-page" data-settings-content="connection" hidden>
+            <h3>Conexão</h3>
+            <div class="connection-card">
+              <span id="settings-connection-dot" class="health-dot"></span>
+              <div><strong id="settings-connection-title">Núcleo local</strong><p id="settings-connection-description">Verificando conexão…</p></div>
+              <button id="settings-test-connection" type="button">Testar</button>
+            </div>
+            <div class="setting-row stacked">
+              <div><label for="api-url-input">Endereço da API</label><p>Usado apenas no modo de navegador. O aplicativo usa uma ponte local segura.</p></div>
+              <input id="api-url-input" class="text-field" type="url" spellcheck="false" value="http://127.0.0.1:8765">
+            </div>
+            <form id="credential-form" class="credential-manager">
+              <div class="credential-manager-heading">
+                <div><strong>Cofre de credenciais</strong><p id="credential-vault-description">Verificando armazenamento seguro do sistema…</p></div>
+                <span id="credential-vault-badge" class="status-badge disabled">Verificando</span>
+              </div>
+              <div class="credential-fields">
+                <label><span>Serviço</span>
+                  <select id="credential-key" name="key">
+                    <option value="gemini">Gemini</option>
+                    <option value="llm">Provedor compatível</option>
+                    <option value="elevenlabs">ElevenLabs</option>
+                    <option value="weather">Clima</option>
+                    <option value="GOOGLE_CLIENT_CREDENTIALS_JSON">Google OAuth · cliente</option>
+                    <option value="GMAIL_OAUTH_TOKEN_JSON">Gmail OAuth · token</option>
+                    <option value="CALENDAR_OAUTH_TOKEN_JSON">Google Calendar OAuth · token</option>
+                  </select>
+                </label>
+                <label><span>Nova chave</span><input id="credential-value" name="value" type="password" minlength="8" maxlength="16384" autocomplete="new-password" placeholder="A chave nunca será exibida novamente"></label>
+              </div>
+              <div id="credential-status-list" class="credential-status-list" aria-live="polite"></div>
+              <div class="credential-actions">
+                <button id="credential-delete" class="secondary-button" type="button">Remover selecionada</button>
+                <button id="credential-save" class="primary-button" type="submit">Salvar e reiniciar núcleo</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="settings-page" data-settings-content="data" hidden>
+            <h3>Dados e histórico</h3>
+            <div class="data-actions">
+              <button id="export-all-button" type="button"><svg><use href="#i-download"></use></svg><span><strong>Exportar dados</strong><small>Conversas e preferências em JSON</small></span></button>
+              <button id="import-data-button" type="button"><svg><use href="#i-upload"></use></svg><span><strong>Importar dados</strong><small>Restaurar um arquivo exportado</small></span></button>
+              <button id="clear-data-button" class="danger" type="button"><svg><use href="#i-trash"></use></svg><span><strong>Limpar histórico local</strong><small>Remove todas as conversas deste dispositivo</small></span></button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="confirm-modal" class="modal-layer" hidden>
+    <div class="modal-backdrop"></div>
+    <section class="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+      <span id="confirm-icon" class="confirm-icon"><svg><use href="#i-alert"></use></svg></span>
+      <h2 id="confirm-title">Confirmar ação</h2>
+      <p id="confirm-description">Tem certeza de que deseja continuar?</p>
+      <div class="confirm-actions">
+        <button id="confirm-cancel" class="secondary-button" type="button">Cancelar</button>
+        <button id="confirm-accept" class="danger-button" type="button">Confirmar</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="rename-modal" class="modal-layer" hidden>
+    <div class="modal-backdrop" data-close-modal="rename"></div>
+    <section class="rename-modal" role="dialog" aria-modal="true" aria-labelledby="rename-title">
+      <header><h2 id="rename-title">Renomear conversa</h2><button class="icon-button" type="button" data-close-modal="rename" aria-label="Fechar"><svg><use href="#i-close"></use></svg></button></header>
+      <label for="rename-input">Nome da conversa</label>
+      <input id="rename-input" type="text" maxlength="80" autocomplete="off">
+      <div><button class="secondary-button" type="button" data-close-modal="rename">Cancelar</button><button id="rename-save" class="primary-button" type="button">Salvar</button></div>
+    </section>
+  </div>
+
+  <div id="message-editor-modal" class="modal-layer" hidden>
+    <div class="modal-backdrop" data-close-modal="message-editor"></div>
+    <section class="rename-dialog message-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="message-editor-title">
+      <header><div><h2 id="message-editor-title">Editar mensagem</h2><p>Uma ramificação preserva a conversa original.</p></div><button class="icon-button" type="button" data-close-modal="message-editor" aria-label="Fechar"><svg><use href="#i-close"></use></svg></button></header>
+      <label for="message-editor-input">Mensagem</label>
+      <textarea id="message-editor-input" rows="8" maxlength="24000"></textarea>
+      <div class="message-editor-actions">
+        <button class="secondary-button" type="button" data-close-modal="message-editor">Cancelar</button>
+        <button id="message-editor-save" class="primary-button" type="button">Criar ramificação e enviar</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="onboarding-modal" class="modal-layer onboarding-layer" hidden>
+    <div class="modal-backdrop"></div>
+    <section class="onboarding-dialog" role="dialog" aria-modal="true" aria-label="Configuração inicial do Aether">
+      <div class="onboarding-brand"><img src="./assets/aether-wordmark.png" alt="Aether"><span>Desktop AI 4.3</span></div>
+      <div class="onboarding-progress" role="group" aria-label="Progresso da configuração"><i class="active"></i><i></i><i></i><i></i></div>
+      <div id="onboarding-content"></div>
+      <footer>
+        <button id="onboarding-back" class="secondary-button" type="button" hidden>Voltar</button>
+        <button id="onboarding-skip" class="text-button" type="button">Configurar depois</button>
+        <button id="onboarding-next" class="primary-button" type="button">Começar</button>
+      </footer>
+    </section>
+  </div>
+
+  <input id="file-input" type="file" multiple hidden aria-label="Selecionar anexos para a conversa" accept=".txt,.md,.json,.csv,.log,.py,.js,.ts,.html,.css,.xml,.yaml,.yml,.pdf,image/*">
+  <input id="import-input" type="file" hidden aria-label="Importar dados do Aether" accept="application/json,.json">
+  <div id="toast-region" class="toast-region" role="region" aria-label="Notificações" aria-live="polite"></div>
+
+  <script src="./browser-shim.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "aether-desktop-ai",
+  "version": 2,
+  "buildCommand": null,
+  "installCommand": "pip install -r requirements-vercel.txt",
+  "functions": {
+    "api/index.py": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.py" },
+    { "source": "/(.*)", "destination": "/renderer/$1" }
+  ],
+  "env": {
+    "VERCEL": "1",
+    "JARVIS_HOST": "0.0.0.0",
+    "JARVIS_PORT": "8765",
+    "AETHER_DESKTOP": "0"
+  }
+}

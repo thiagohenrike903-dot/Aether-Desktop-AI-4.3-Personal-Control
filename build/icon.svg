@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <clipPath id="icon-mask">
+      <rect x="32" y="32" width="960" height="960" rx="222"/>
+    </clipPath>
+  </defs>
+  <rect x="32" y="32" width="960" height="960" rx="222" fill="#050505"/>
+  <image
+    href="./assets/aether-wordmark.png"
+    xlink:href="./assets/aether-wordmark.png"
+    x="32"
+    y="32"
+    width="960"
+    height="960"
+    clip-path="url(#icon-mask)"
+    preserveAspectRatio="none"
+  />
+  <rect
+    x="48"
+    y="48"
+    width="928"
+    height="928"
+    rx="206"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-opacity=".12"
+    stroke-width="4"
+  />
+</svg>
