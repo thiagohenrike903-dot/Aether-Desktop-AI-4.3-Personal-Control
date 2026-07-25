@@ -15,6 +15,7 @@ from pathlib import Path
 os.environ.setdefault("VERCEL", "1")
 os.environ.setdefault("JARVIS_HOST", "0.0.0.0")
 os.environ.setdefault("JARVIS_PORT", "8765")
+os.environ.setdefault("JARVIS_DATA_DIR", "/tmp/jarvis_data")
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_PROJECT_ROOT / "python"))
