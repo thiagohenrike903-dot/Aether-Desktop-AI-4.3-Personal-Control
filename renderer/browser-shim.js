@@ -9,7 +9,7 @@
     if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
       return "http://127.0.0.1:8765";
     }
-    return origin;
+    return origin + "/api";
   })();
 
   var pendingStreams = {};

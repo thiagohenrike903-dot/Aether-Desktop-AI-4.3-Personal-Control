@@ -1,9 +1,4 @@
-"""Vercel serverless entry point — wraps the Aether FastAPI app for Vercel.
-
-This module adapts the desktop-native FastAPI application to run in Vercel's
-serverless Python environment. Desktop-specific features (OS control, screenshots,
-local filesystem, etc.) are gracefully unavailable; the API serves the LLM chat,
-memory, projects, web search, and other cloud-compatible features.
+"""Vercel serverless entry point.
 """
 from __future__ import annotations
 
@@ -27,17 +22,18 @@ logging.basicConfig(
 log = logging.getLogger("aether.vercel")
 
 try:
-    from jarvis.app import app
+    from jarvis.app import app as api_app
 except ImportError as exc:
     log.error("Failed to import Aether app: %s", exc)
     raise
 
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 
-app = app
+_RENDERER_DIR = _PROJECT_ROOT / "renderer"
 
-app.routes = [r for r in app.routes if getattr(r, "path", None) != "/"]
+app = FastAPI()
 
 LOCAL_ORIGINS = {
     "http://127.0.0.1:3000",
@@ -67,14 +63,14 @@ app.add_middleware(
     ],
 )
 
-_RENDERER_DIR = _PROJECT_ROOT / "renderer"
+app.mount("/api", api_app)
 
 
-@app.api_route("/{path:path}", methods=["GET", "HEAD"])
-def serve_static(path: str):
+@app.get("/{path:path}")
+def serve_frontend(path: str):
     target = _RENDERER_DIR / (path or "index.html")
     if target.is_dir():
         target = target / "index.html"
     if target.is_file():
         return FileResponse(str(target))
-    return JSONResponse({"ok": False, "detail": "Not found"}, status_code=404)
+    return FileResponse(str(_RENDERER_DIR / "index.html"))
